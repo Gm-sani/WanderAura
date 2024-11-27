@@ -12,7 +12,7 @@ export default function ModalRootes({ isOpen, onClose, route }) {
 
   const handleSubmit = async (data) => {
     try {
-      // Prepare the booking data to send, including serviceType as 'Bus'
+      // Preparing data to send for booking creation
       const bookingData = {
         departureLocation: data.departureLocation,
         departureDate: data.departureDate,
@@ -23,16 +23,10 @@ export default function ModalRootes({ isOpen, onClose, route }) {
         price: data.price,
         seats: data.seats,
         routeId: route._id, // assuming route has an _id field
-        serviceType: "Bus", // Assuming you are always dealing with Bus routes
       };
 
-      // Call the createBooking function with the updated booking data
-      const response = await createBooking(
-        route._id,
-        "Bus",
-        route._id,
-        "confirmed"
-      ); // pass the correct parameters
+      // Call createBooking service
+      const response = await createBooking(bookingData);
 
       console.log("Booking created successfully:", response);
       // Optionally close the modal after successful booking creation
@@ -146,16 +140,6 @@ export default function ModalRootes({ isOpen, onClose, route }) {
                 <li className="text-white/50">No seats available</li>
               )}
             </ul>
-          </div>
-          <div className="mb-4">
-            <input
-              type="text"
-              name="status"
-              defaultValue={route?.status || "confirmed"} // Default to 'confirmed' if no value is provided
-              required
-              placeholder="Booking Status"
-              className="w-full mt-1 backdrop-blur-none bg-transparent px-4 py-1 shadow-sm shadow-white/70 text-white/80 rounded-md focus:outline-none focus:ring-2 placeholder-white/70"
-            />
           </div>
 
           <div className="flex justify-end space-x-4">

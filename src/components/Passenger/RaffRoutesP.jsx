@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import ModalRoom from "./ModalRoom";
-import { getAllHotelRooms } from "../../backend-services/bookingServices";
+import ModalRootes from "./ModalRootes";
+import { getAllCompanyRoutes } from "../../backend-services/bookingServices";
 
-export default function RoomP({ hotelId, hotelName }) {
+export default function RootesP({ companyId, cmpnyName }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState("");
-  const [rooms, setRooms] = useState([]);
+  const [selectedRoute, setSelectedRoute] = useState(null);
+  const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -30,95 +30,95 @@ export default function RoomP({ hotelId, hotelName }) {
     }).format(date);
   };
 
-  const openModal = (room) => {
-    setSelectedRoom(room);
+  const openModal = (route) => {
+    setSelectedRoute(route);
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setSelectedRoom(null);
+    setSelectedRoute(null);
   };
 
   const handleSubmit = (data) => {
-    console.log("Form Data:", data, "Room:", selectedRoom);
+    console.log("Form Data:", data, "Route:", selectedRoute);
     closeModal();
   };
 
   useEffect(() => {
-    const fetchRooms = async () => {
-      setLoading(true); // Reset loading state for each fetch
-      setError(null); // Reset error state
-      setRooms([]); // Clear previous rooms
-
-      if (!hotelId) {
-        setError("Company ID is required to fetch rooms.");
+    const fetchRoutes = async () => {
+      if (!companyId) {
+        setError("Company ID is required to fetch routes.");
         setLoading(false);
         return;
       }
 
       try {
-        const response = await getAllHotelRooms(hotelId); // Pass companyId to the API
+        const response = await getAllCompanyRoutes(companyId); // Pass companyId to the API
         console.log("API Response:", response);
-        const fetchedRooms = response?.data || [];
-        setRooms(fetchedRooms);
+        const fetchedRoutes = response?.data || [];
+        setRoutes(fetchedRoutes);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching rooms:", err);
-        setError(err.message || "Failed to fetch rooms.");
-      } finally {
+        console.error("Error fetching routes:", err);
+        setError(err.message || "Failed to fetch routes.");
         setLoading(false);
       }
     };
 
-    fetchRooms();
-  }, [hotelId]); // Re-run effect whenever companyId changes
+    fetchRoutes();
+  }, [companyId]);
 
   return (
     <div>
       <div className="p-5 bg-transparent mt-16 m-auto w-fit px-6 text-white rounded-md">
         <p className="text-center text-[1.4rem] font-semibold">
-          Rooms Available from {hotelName}
+          Routes Available from {cmpnyName}
         </p>
         {loading ? (
-          <p className="text-center">Loading rooms...</p>
+          <p className="text-center">Loading routes...</p>
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
-        ) : rooms.length > 0 ? (
+        ) : routes.length > 0 ? (
           <ul className="flex flex-wrap gap-6 text-sm mt-8">
-            {rooms.map((room) => (
+            {routes.map((route) => (
               <li
-                key={room._id}
-                onClick={() => openModal(room)}
+                key={route._id}
+                onClick={() => openModal(route)}
                 className="text-center p-2 bg-transparent rounded-2xl cursor-pointer shadow-sm shadow-black/50 hover:shadow-black"
               >
                 <div>
-                  <p className="text-xl">Room Type: {room.type}</p>
+                  <p className="text-xl">From: {route.departure.location}</p>
+                  <p className="text-xl">To: {route.arrival.location}</p>
                   <p>
-                    Availability From:{" "}
-                    {formatDate(room.availability.from || new Date())}
+                    Departure Time:{" "}
+                    {formatTime(route.departure.time || "00:00")}
                   </p>
-
                   <p>
-                    Ailability To:{" "}
-                    {formatDate(room.availability.to || new Date())}
+                    Departure Date:{" "}
+                    {formatDate(route.departure.date || new Date())}
                   </p>
-                  <p className="text-xl">
-                    Price Per Night: Rs. {room.pricePerNight}
+                  <p>
+                    Arrival Time: {formatTime(route.arrival.time || "00:00")}
                   </p>
+                  <p>
+                    Arrival Date: {formatDate(route.arrival.date || new Date())}
+                  </p>
+                  <p className="text-xl">Price: Rs. {route.price}</p>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-center text-white">No rooms available.</p>
+          <p className="text-center text-white">No routes available.</p>
         )}
       </div>
 
-      <ModalRoom
+      <ModalRootes
         isOpen={modalOpen}
         onClose={closeModal}
         onSubmit={handleSubmit}
-        room={selectedRoom}
+        route={selectedRoute}
       />
     </div>
   );

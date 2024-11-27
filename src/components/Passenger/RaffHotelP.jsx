@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import NavbarminiP from "./NavbarminiP";
@@ -50,12 +50,7 @@ export default function HotelP() {
                 key={hotel._id} // Use a unique key
                 role="button"
                 aria-label={`Navigate to ${hotel.username || hotel.name}`}
-                // onClick={() => navigate(`/hotelDetails/${hotel._id}`)} // Corrected navigation path
-                onClick={() =>
-                  hotel.username
-                    ? navigate(hotel.username.replace(/\s+/g, ""))
-                    : console.error("Invalid hotel username")
-                }
+                onClick={() => navigate(hotel.username.replace(/\s+/g, ""))} // Navigate using hotel route
                 className="text-center p-2 bg-transparent rounded-2xl cursor-pointer shadow-sm shadow-black/50 hover:shadow-black"
               >
                 <p className="text-sm">Name: {hotel.username || hotel.name}</p>{" "}
@@ -75,11 +70,11 @@ export default function HotelP() {
               </div>
             ))
           ) : (
-            <p className="text-center text-white">No hotels available.</p>
+            <p className="text-center text-white">No hotels available.</p> // Show this if no hotels are returned
           )}
         </div>
 
-        {/* Render the nested routes */}
+        {/* Nested Routes Rendered Here */}
         <Outlet />
       </div>
     </div>

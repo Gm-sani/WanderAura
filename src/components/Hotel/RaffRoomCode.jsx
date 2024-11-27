@@ -137,19 +137,14 @@ export default function RoomsH() {
       <NavbarminiH name="Add Room" />
       <div className="p-5 mx-auto w-fit backdrop-blur-sm bg-white/10 py-10 shadow-lg text-white rounded-md">
         <form onSubmit={handleSubmit}>
-          <select
+          <input
+            type="text"
             name="type"
-            id="type"
+            placeholder="Room Type"
+            onChange={handleChange}
+            value={formData.type}
             className="w-full px-4 py-2 bg-transparent shadow-sm text-white rounded-md"
-            value={formData.type} // Bind value to formData.type
-            onChange={handleChange} // Update formData when value changes
-          >
-            <option value="">Select Room Type</option> {/* Default option */}
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="suits">Suits</option>
-          </select>
-
+          />
           <input
             type="number"
             name="pricePerNight"
@@ -182,7 +177,7 @@ export default function RoomsH() {
             type="submit"
             className="px-4 py-2 mt-5 bg-blue-500 rounded shadow-md"
           >
-            {editMode ? "Update Room" : "Add Room"}
+            Add Room
           </button>
         </form>
         <div className="mt-6">
@@ -207,7 +202,7 @@ export default function RoomsH() {
                   onClick={() => handleEdit(room)}
                   className="px-2 py-1 bg-green-600 rounded"
                 >
-                  Edit
+                  Update
                 </button>
               </div>
             </div>

@@ -27,9 +27,31 @@ export default function RootesT() {
     price: 0,
     seats: [{ seatNumber: "", availability: true }],
   });
+
   const [routes, setRoutes] = useState([]);
-  const [editMode, setEditMode] = useState(false);
-  const [currentRouteId, setCurrentRouteId] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchCompanyDetails = async () => {
+  //     try {
+  //       const response = await getUserProfile(); // Check if API returns _id or companyId
+  //       console.log("getUserProfile Response:", response);
+
+  //       // Handle company ID extraction
+  //       const id =
+  //         response.data.companyId || response.data._id || response.data.id;
+  //       if (!id) {
+  //         console.error("Company ID not found in API response");
+  //         return;
+  //       }
+
+  //       setCompanyId(id);
+  //     } catch (error) {
+  //       console.error("Error fetching company details:", error);
+  //     }
+  //   };
+
+  //   fetchCompanyDetails();
+  // }, []);
 
   useEffect(() => {
     const fetchCompanyDetails = async () => {
@@ -37,14 +59,14 @@ export default function RootesT() {
         const response = await getUserProfile();
         const id = response.data._id;
         if (!id) throw new Error("Company ID is missing!");
-        setCompanyId(id);
+        setCompanyId(id); // Set it once
       } catch (error) {
         console.error("Error fetching company details:", error.message);
       }
     };
 
     fetchCompanyDetails();
-  }, []);
+  }, []); // Fetch once on component mount
 
   useEffect(() => {
     fetchRoutes();
@@ -53,7 +75,6 @@ export default function RootesT() {
   const fetchRoutes = async () => {
     try {
       const response = await getAllRoutes();
-      console.log("Fetched Routes:", response.data.routes); // Debugging log
       setRoutes(response.data.routes);
     } catch (error) {
       console.error(error);
@@ -64,8 +85,11 @@ export default function RootesT() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // Handle changes in departure and arrival fields
     if (name.includes("departure") || name.includes("arrival")) {
-      const [section, field] = name.split("_");
+      const section = name.split("_")[0]; // 'departure' or 'arrival'
+      const field = name.split("_")[1]; // 'location', 'date', or 'time'
+
       setFormData((prevData) => ({
         ...prevData,
         [section]: {
@@ -74,11 +98,14 @@ export default function RootesT() {
         },
       }));
     } else if (name.includes("seat")) {
-      const [propertyName, seatIndex] = name.split("_");
+      const seatIndex = parseInt(name.split("_")[1]);
       setFormData((prevData) => {
         const updatedSeats = [...prevData.seats];
-        updatedSeats[seatIndex][propertyName] =
-          propertyName === "availability" ? value === "true" : value; // Handle boolean for availability
+        const propertyName = name.split("_")[0]; // Extract seat property (seatNumber or availability)
+        updatedSeats[seatIndex] = {
+          ...updatedSeats[seatIndex],
+          [propertyName]: value,
+        };
         return { ...prevData, seats: updatedSeats };
       });
     } else {
@@ -89,7 +116,10 @@ export default function RootesT() {
   const handleAddSeat = () => {
     setFormData((prevData) => ({
       ...prevData,
-      seats: [...prevData.seats, { seatNumber: "", availability: true }],
+      seats: [
+        ...prevData.seats,
+        { seatNumber: "", availability: true }, // Ensure 'availability' is true by default
+      ],
     }));
   };
 
@@ -102,122 +132,102 @@ export default function RootesT() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+
+  //   // Ensure all fields are populated and valid
+  //   if (
+  //     !formData.departure.time ||
+  //     !formData.departure.date ||
+  //     !formData.departure.location
+  //   ) {
+  //     alert("Please provide all departure details.");
+  //     return;
+  //   }
+
+  //   if (
+  //     !formData.arrival.time ||
+  //     !formData.arrival.date ||
+  //     !formData.arrival.location
+  //   ) {
+  //     alert("Please provide all arrival details.");
+  //     return;
+  //   }
+
+  //   const routeData = {
+  //     ...formData,
+  //     companyId, // Explicitly map it here
+  //   };
+
+  //   console.log("Route Data with Company ID:", routeData);
+
+  //   try {
+  //     const response = await createRoute(routeData); // Send routeData including companyId
+  //     alert(response.data.message);
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to create route.");
+  //   }
+  // };
+
+  const handleSubmit = async () => {
     try {
-      // Validate departure details
-      if (
-        !formData.departure.location ||
-        !formData.departure.date ||
-        !formData.departure.time
-      ) {
-        throw new Error("Please provide all departure details.");
-      }
+      // Check companyId before preparing data
+      if (!companyId) throw new Error("Company ID is missing!");
 
-      // Validate arrival details
-      if (
-        !formData.arrival.location ||
-        !formData.arrival.date ||
-        !formData.arrival.time
-      ) {
-        throw new Error("Please provide all arrival details.");
-      }
-
-      // Validate price
-      if (formData.price <= 0) {
-        throw new Error("Price must be a positive value.");
-      }
-
-      // Validate seats
-      if (formData.seats.length === 0) {
-        throw new Error("At least one seat must be added.");
-      }
-
-      // Construct the route data
       const routeData = {
+        companyId, // Use the stored companyId
         departure: formData.departure,
         arrival: formData.arrival,
         price: formData.price,
         seats: formData.seats,
       };
 
-      if (editMode) {
-        // Update an existing route
-        if (!currentRouteId) throw new Error("Route ID is missing for update!");
-        await updateRoute(currentRouteId, routeData);
-        alert("Route updated successfully!");
-      } else {
-        // Add a new route
-        if (!companyId)
-          throw new Error("Company ID is missing for adding a route!");
-        await createRoute({ ...routeData, companyId });
-        alert("Route created successfully!");
-      }
+      console.log("Route Data Prepared for API:", routeData);
 
-      // Reset the form
-      setFormData({
-        departure: { location: "", date: "", time: "" },
-        arrival: { location: "", date: "", time: "" },
-        price: 0,
-        seats: [{ seatNumber: "", availability: true }],
-      });
-      setEditMode(false);
-      fetchRoutes(); // Fetch updated list of routes
+      // Send data to API
+      const response = await createRoute(routeData);
+      console.log("API Response:", response);
     } catch (error) {
       console.error("Error in handleSubmit:", error.message);
-      alert(error.message || "Failed to save the route.");
     }
   };
 
-  const handleEdit = (route) => {
-    setFormData(route); // Populate form with route details
-    setEditMode(true);
-    setCurrentRouteId(route._id); // Set the current route ID
-    console.log("Editing Route ID:", route._id); // Debugging log
-  };
-
-  // const handleDelete = async (routeId) => {
-  //   try {
-  //     const response = await deleteRoute(routeId);
-  //     alert(response.data.message);
-  //     fetchRoutes();
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Failed to delete route");
-  //   }
-  // };
   const handleDelete = async (routeId) => {
     try {
-      // Ensure routeId is provided
-      if (!routeId) throw new Error("Route ID is missing!");
-
-      // Call the delete function
       const response = await deleteRoute(routeId);
-
-      // Check if response contains the expected message
-      if (response && response.message) {
-        alert(response.message); // Response directly contains the message
-      } else {
-        throw new Error("Unexpected response format from server.");
-      }
-
-      // Refresh the routes list
-      fetchRoutes();
+      alert(response.data.message);
+      fetchRoutes(); // Reload routes after deletion
     } catch (error) {
-      console.error("Error in handleDelete:", error.message || error);
-      alert(error.message || "Failed to delete route.");
+      console.error(error);
+      alert("Failed to delete route");
+    }
+  };
+
+  const handleUpdate = async (routeId) => {
+    try {
+      const updatedData = { ...formData, routeId }; // Assuming you update the form data
+      const response = await updateRoute(updatedData);
+      alert(response.data.message);
+      fetchRoutes(); // Reload routes after updating
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update route");
     }
   };
 
   return (
     <div>
-      <NavbarminiT name="Manage Routes" />
-      <div className="overflow-auto h-[30rem] p-5 m-auto pt-[5rem] w-fit px-24 backdrop-blur-sm bg-white/10 py-24 shadow-lg shadow-black text-white rounded-md">
+      <NavbarminiT name="Add Routes" />
+      <div
+        style={{
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE 10+
+        }}
+        className="overflow-auto h-[30rem] p-5 m-auto pt-[5rem] w-fit px-24 backdrop-blur-sm bg-white/10 py-24 shadow-lg shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
+      >
         <form onSubmit={handleSubmit}>
-          <p className="text-xl text-white font-serif my-5">
-            {editMode ? "Edit Route" : "Add Route"}
-          </p>
-
           {/* Departure */}
           <p className="text-xl text-white font-serif my-5">Departure</p>
           <div className="flex gap-[8rem] justify-center">
@@ -225,7 +235,6 @@ export default function RootesT() {
               <input
                 type="text"
                 name="departure_location"
-                value={formData.departure.location}
                 placeholder="Departure Location"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -233,9 +242,8 @@ export default function RootesT() {
             </div>
             <div>
               <input
-                type="date"
+                type="text"
                 name="departure_date"
-                value={formData.departure.date}
                 placeholder="Departure Date"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -243,9 +251,8 @@ export default function RootesT() {
             </div>
             <div>
               <input
-                type="time"
+                type="text"
                 name="departure_time"
-                value={formData.departure.time}
                 placeholder="Departure Time"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -260,7 +267,6 @@ export default function RootesT() {
               <input
                 type="text"
                 name="arrival_location"
-                value={formData.arrival.location}
                 placeholder="Arrival Location"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -268,9 +274,8 @@ export default function RootesT() {
             </div>
             <div>
               <input
-                type="date"
+                type="text"
                 name="arrival_date"
-                value={formData.arrival.date}
                 placeholder="Arrival Date"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -278,9 +283,8 @@ export default function RootesT() {
             </div>
             <div>
               <input
-                type="time"
+                type="text"
                 name="arrival_time"
-                value={formData.arrival.time}
                 placeholder="Arrival Time"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
@@ -319,23 +323,13 @@ export default function RootesT() {
               <div>
                 <select
                   name={`availability_${index}`}
-                  value={seat.availability}
-                  onChange={handleChange}
-                  className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
-                >
-                  <option value="true">Available</option>
-                  <option value="false">Not Available</option>
-                </select>
-
-                {/* <select
-                  name={`availability_${index}`}
                   value={formData.seats.availability}
                   onChange={handleChange}
                   className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
                 >
                   <option value="true">Available</option>
                   <option value="false">Not Available</option>
-                </select> */}
+                </select>
                 {/* 
                 <input
                   type="text"
@@ -369,7 +363,7 @@ export default function RootesT() {
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded mt-[1rem] shadow-md shadow-black/30"
             >
-              {editMode ? "Update Route" : "Add Route"}
+              Add Route
             </button>
           </div>
         </form>
@@ -380,20 +374,21 @@ export default function RootesT() {
             key={route._id}
             className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
           >
+            <p>{route.name}</p>
             <p>
               {route.departure.location} to {route.arrival.location}
             </p>
             <button
-              onClick={() => handleEdit(route)}
-              className="text-yellow-500"
-            >
-              Edit
-            </button>
-            <button
               onClick={() => handleDelete(route._id)}
-              className="text-red-500"
+              className="bg-red-500 text-white py-2 px-4 rounded-md"
             >
               Delete
+            </button>
+            <button
+              onClick={() => handleUpdate(route._id)}
+              className="bg-green-500 text-white py-2 px-4 rounded-md"
+            >
+              Edit
             </button>
           </div>
         ))}
