@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
-import Navbarmini from "./navbarmini";
+import Navbarmini from "./Navbarmini";
 import {
   addTravelCompany,
   deleteTravelCompany,
