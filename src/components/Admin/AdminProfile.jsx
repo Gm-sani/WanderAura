@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // Updated AdminProfile component
 import React, { useEffect, useState } from "react";
-import Navbarmini from "./navbarmini";
+import Navbarmini from "./Navbarmini";
 import {
   getUserProfile,
   updateUserProfile,
