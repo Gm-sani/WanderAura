@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import Navbarmini from "./Navbarmini";
+import Navbarmini from "./navbarmini";
 import {
   getAllPasssenger,
   deletePassenger as deletePassengerApi, // Renamed the imported deletePassenger function

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import Navbarmini from './Navbarmini';
+import Navbarmini from './navbarmini';
 
 export default function Room() {
   const navigate = useNavigate();

@@ -147,7 +147,7 @@ export default function RoomsH() {
             <option value="">Select Room Type</option> {/* Default option */}
             <option value="single">Single</option>
             <option value="double">Double</option>
-            <option value="suits">Suits</option>
+            <option value="suite">Suite</option>
           </select>
 
           <input

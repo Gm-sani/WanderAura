@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Navbarmini from './Navbarmini.jsx';
+import Navbarmini from './navbarmini';
 
 export default function Rootes() {
   const navigate = useNavigate();

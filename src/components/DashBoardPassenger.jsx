@@ -43,116 +43,59 @@ export default function DashBoardPassenger() {
 
             <Route path="travelP/*" element={<TravelP />}>
               <Route
-                path="rashid"
+                path="devo bus"
                 element={
                   <RootesP
-                    companyId="673d9f16d73cd4a03ae24175"
-                    cmpnyName="Rashid"
+                    companyId="67481a08576314f41b0870bd"
+                    cmpnyName="Devo Bus"
                   />
                 }
               />
               <Route
-                path="rahman"
+                path="devo"
                 element={
                   <RootesP
-                    companyId="673b0aeb7f756e83f5776512"
-                    cmpnyName="rahman"
+                    companyId="67481a3a576314f41b0870cd"
+                    cmpnyName="Devo"
                   />
                 }
               />
               <Route
-                path="mugal"
+                path="faisal mover"
                 element={
                   <RootesP
-                    companyId="6731bed8cf0b2afcf0af3984"
-                    cmpnyName="mugal"
-                  />
-                }
-              />
-              <Route
-                path="RoadMaster"
-                element={
-                  <RootesP
-                    cmpnyName="Road Master"
-                    rt1="Lahore to Arifwala"
-                    rt2="Atak to Faisalabad"
-                    rt3="Quetta to Peshawar"
-                  />
-                }
-              />
-              <Route
-                path="NiaziExpress"
-                element={
-                  <RootesP
-                    cmpnyName="Niazi Express"
-                    rt1="Lahore to Islamabad"
-                    rt2="Lahore to Faisalabad"
-                    rt3="Lahore to Peshawar"
-                  />
-                }
-              />
-              <Route
-                path="QConnect"
-                element={
-                  <RootesP
-                    cmpnyName="Q Connect"
-                    rt1="Lahore to vehari"
-                    rt2="Burewala to Faisalabad"
-                    rt3="Gaggo to Peshawar"
-                  />
-                }
-              />
-              <Route
-                path="Skyways"
-                element={
-                  <RootesP
-                    cmpnyName="Skyways"
-                    rt1="Lahore to Skardu"
-                    rt2="Lahore to Okara"
-                    rt3="Lahore to Karachi"
-                  />
-                }
-              />
-              <Route
-                path="WaraichExpress"
-                element={
-                  <RootesP
-                    cmpnyName="Waraich Express"
-                    rt1="Lahore to Sakhar"
-                    rt2="Lahore to Faisalabad"
-                    rt3="Lahore to Peshawar"
+                    companyId="67481a5d576314f41b0870d4"
+                    cmpnyName="Faisal Mover"
                   />
                 }
               />
             </Route>
             <Route path="hotelP/*" element={<HotelP />}>
               <Route
-                path="hassan"
+                path="fourseasonhotel"
                 element={
                   <RoomP
-                    hotelId="6731bf13cf0b2afcf0af398a"
-                    hotelName="Hassan Hotel"
+                    hotelId="67481ac0576314f41b0870df"
+                    hotelName="Four Season Hotel"
                   />
                 }
               />
 
               <Route
-                path="raiz"
+                path="shangri-la hotel"
                 element={
                   <RoomP
-                    hotelId="673d9f58d73cd4a03ae2417b"
-                    hotelName="Raiz Hotel"
+                    hotelId="67481afc576314f41b0870e6"
+                    hotelName="Shangri-La Hotel"
                   />
                 }
               />
               <Route
-                path="Islamabad_Serena_Hotel"
+                path="waldorf astoria"
                 element={
                   <RoomP
-                    cmpnyName="Islamabad Serena Hotel"
-                    rt1="Room11"
-                    rt2="Room112"
-                    rt3="Room34"
+                    hotelId="67481ba0576314f41b0870fd"
+                    hotelName="Waldrof Astoria"
                   />
                 }
               />

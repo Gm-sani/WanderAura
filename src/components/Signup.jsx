@@ -30,6 +30,18 @@ const Signup = () => {
     t1.fromTo(".f1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 });
   }, []);
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   if (name in formData.contactInfo) {
+  //     setFormData({
+  //       ...formData,
+  //       contactInfo: { ...formData.contactInfo, [name]: value },
+  //     });
+  //   } else {
+  //     setFormData({ ...formData, [name]: value });
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name in formData.contactInfo) {
@@ -42,9 +54,26 @@ const Signup = () => {
     }
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("Submitting form data:", formData);
+  //   try {
+  //     const response = await registerUser(formData);
+  //     console.log("Response from server:", response);
+  //     alert(response.message || "Sign up successful!");
+  //     navigate("/login");
+  //   } catch (error) {
+  //     console.error("Error during signup:", error);
+  //     alert(error.message || "Sign up failed. Please try again.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form data:", formData);
+    if (!formData.role) {
+      alert("Please select a role.");
+      return;
+    }
     try {
       const response = await registerUser(formData);
       console.log("Response from server:", response);
@@ -96,6 +125,7 @@ const Signup = () => {
             />
             <select
               name="role"
+              value={formData.role}
               onChange={handleChange}
               required
               className="w-full px-4 py-2 shadow-sm shadow-black rounded-md focus:outline-none focus:ring-2 bg-transparent text-white"
@@ -104,10 +134,11 @@ const Signup = () => {
                 Select Role
               </option>
               <option value="Admin">Admin</option>
-              <option value="TravelCompany">Travel Company</option>
-              <option value="Hotel">Hotel</option>
+              {/* <option value="TravelCompany">Travel Company</option>
+              <option value="Hotel">Hotel</option> */}
               <option value="Passenger">Passenger</option>
             </select>
+
             <input
               type="text"
               name="phone"
