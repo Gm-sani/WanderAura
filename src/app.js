@@ -5,6 +5,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Ensure cookies are included
 });
 
 // Flag to prevent multiple refresh attempts
