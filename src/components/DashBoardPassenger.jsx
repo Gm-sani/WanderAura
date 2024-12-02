@@ -26,13 +26,13 @@ export default function DashBoardPassenger() {
         />
       </div>
       {/* ---------------front------------------ */}
-      <div className="flex h-screen opacity-1">
+      <div className="flex flex-col md:flex-row h-screen opacity-1">
         {/* ----------------------------sidebar------------------------- */}
         <SidebarP
           type="Passenger"
           prp1="Travel"
           prp2="Hotel"
-          // prp3="Details"
+          prp3="Details"
           prp4="Logout"
         />
 
@@ -43,15 +43,15 @@ export default function DashBoardPassenger() {
 
             <Route path="travelP/*" element={<TravelP />}>
               <Route
-                path="devo bus"
+                path="destinationbagpacker"
                 element={
                   <RootesP
-                    companyId="67481a08576314f41b0870bd"
-                    cmpnyName="Devo Bus"
+                    companyId="67498d5b87abc9c7356f7996"
+                    cmpnyName="Destination Bag Packer"
                   />
                 }
               />
-              <Route
+              {/* <Route
                 path="devo"
                 element={
                   <RootesP
@@ -68,7 +68,7 @@ export default function DashBoardPassenger() {
                     cmpnyName="Faisal Mover"
                   />
                 }
-              />
+              /> */}
             </Route>
             <Route path="hotelP/*" element={<HotelP />}>
               <Route

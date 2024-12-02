@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../backend-services/authServices";
+import { loginUser  } from "../backend-services/authServices";
 import backpic from "./Pics/Signuppics/signUpback3.jpg";
 
 const Login = () => {
@@ -11,15 +11,51 @@ const Login = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const t1 = gsap.timeline();
-    t1.to(".box1", {
-      duration: 1.5,
-      x: 450,
-      opacity: 1,
-      ease: "back.out(1.7)",
+
+    // Use matchMedia to apply different animations based on screen size
+    const mediaQuery = window.matchMedia("(max-width: 425px)");
+
+    const animate = (isMobile) => {
+      if (isMobile) {
+        // Animation for mobile screens
+        t1.fromTo(
+          ".box1",
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1 }
+        );
+      } else {
+        // Animation for larger screens
+        t1.to(".box1", {
+          duration: 1.5,
+          x: 450,
+          opacity: 1,
+          ease: "back.out(1.7)",
+        });
+        t1.fromTo(
+          ".f1",
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1 }
+        );
+      }
+    };
+
+    // Initial animation
+    animate(mediaQuery.matches);
+
+    // Add listener for media query changes
+    mediaQuery.addEventListener("change", (e) => {
+      animate(e.matches);
     });
-    t1.fromTo(".f1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 });
+
+    return () => {
+      mediaQuery.removeEventListener("change", (e) => {
+        animate(e.matches);
+      });
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -30,8 +66,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginUser(formData);
-
+      const response = await loginUser (formData);
       const { role } = response; // Access role directly from response
 
       // Navigate based on role
@@ -60,12 +95,10 @@ const Login = () => {
     }
   };
 
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gradient-to-br bg-transparent flex gap-3">
       <div>
-        <img src={backpic} alt="" className="absolute h-screen w-screen" />
+        <img src={backpic} alt="" className="absolute h-screen w-screen " />
       </div>
       <div className="box1 h-fit mt-[8rem] max-w-md w-full px-6 py-8 bg-transparent rounded-lg shadow-md shadow-black">
         <div
@@ -101,7 +134,7 @@ const Login = () => {
           </form>
           <div className="flex gap-1 justify-center mt-4">
             <p className="text-center mt-2 font-sans text-[0.9rem] text-white">
-              If you don&apos;t have an account, click on
+              If you don't have an account, click on
             </p>
             <p
               className="px-2 mt-1 rounded-md bg-green-700 text-white w-fit font-semibold text-[1rem] hover:cursor-pointer"

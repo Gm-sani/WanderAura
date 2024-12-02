@@ -22,7 +22,7 @@ export default function DashBoardHotel() {
         />
       </div>
       {/* ---------------front------------------ */}
-      <div className="flex h-screen opacity-1">
+      <div className="flex flex-col md:flex-row h-screen opacity-1">
         {/* ----------------------------sidebar------------------------- */}
         <SidebarH type="Hotel" prp1="Add Room" prp2="Logout" />
 

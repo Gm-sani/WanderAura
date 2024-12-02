@@ -30,7 +30,7 @@ export default function HotelP() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-slate-950">
       {/* Navbar */}
       <NavbarminiP name="Hotel" />
 

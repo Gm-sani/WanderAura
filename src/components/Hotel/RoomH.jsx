@@ -133,7 +133,7 @@ export default function RoomsH() {
   };
 
   return (
-    <div>
+    <div className="bg-slate-950 h-fit">
       <NavbarminiH name="Add Room" />
       <div className="p-5 mx-auto w-fit backdrop-blur-sm bg-white/10 py-10 shadow-lg text-white rounded-md">
         <form onSubmit={handleSubmit}>

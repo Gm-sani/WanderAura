@@ -21,7 +21,7 @@ export default function DashBoardTravel() {
         />
       </div>
       {/* ---------------front------------------ */}
-      <div className="flex h-screen opacity-1">
+      <div className="flex flex-col md:flex-row h-screen opacity-1">
         {/* ----------------------------sidebar------------------------- */}
         <SidebarT type="Travel" prp1="Rootes" prp2="Logout" />
 

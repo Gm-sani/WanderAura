@@ -76,26 +76,26 @@ export default function PassengerProfile() {
   };
 
   return (
-    <div>
+    <div className="bg-slate-950 h-fit">
       {/* ----------------------------------nav--------------------------------- */}
       <NavbarminiP name="Passenger Profile" />
       <form
-        className="p-5 m-auto pt-[5rem] w-fit px-32 backdrop-blur-sm bg-white/10 py-24 shadow-lg shadow-black text-white rounded-md  focus:outline-none focus:ring-2 placeholder-white"
+        className="p-5 m-auto pt-5 w-fit max-w-fit backdrop-blur-sm bg-white/10 py-10 shadow-lg shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
         onSubmit={handleSubmit}
       >
-        <div className="flex gap-[14rem] justify-center mt-12">
-          <div>
+        <div className="flex flex-col md:flex-row gap-16 justify-center mt-5 px-12 py-8">
+          <div className="flex-1">
             <input
               type="text"
               name="username"
               value={profileData.username}
               placeholder="Username"
               onChange={handleChange}
-              className="w-full  backdrop-blur-none bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
+              className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
             />
           </div>
-
-          <div>
+  
+          <div className="flex-1">
             <input
               type="password"
               name="password"
@@ -106,9 +106,9 @@ export default function PassengerProfile() {
             />
           </div>
         </div>
-
-        <div className="flex gap-[14rem] justify-center mt-12">
-          <div>
+  
+        <div className="flex flex-col md:flex-row gap-16 justify-center mt-5 px-12 py-8">
+          <div className="flex-1">
             <input
               type="email"
               name="email"
@@ -118,8 +118,8 @@ export default function PassengerProfile() {
               className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
             />
           </div>
-
-          <div>
+  
+          <div className="flex-1">
             <input
               type="text"
               name="role"
@@ -130,9 +130,9 @@ export default function PassengerProfile() {
             />
           </div>
         </div>
-
-        <div className="flex gap-[14rem] justify-center mt-12">
-          <div>
+  
+        <div className="flex flex-col md:flex-row gap-16 justify-center mt-5 px-12 py-8">
+          <div className="flex-1">
             <input
               type="text"
               name="phone"
@@ -142,8 +142,8 @@ export default function PassengerProfile() {
               className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
             />
           </div>
-
-          <div>
+  
+          <div className="flex-1">
             <input
               type="text"
               name="address"
@@ -154,16 +154,17 @@ export default function PassengerProfile() {
             />
           </div>
         </div>
-
+  
         <div className="flex justify-center mt-5">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded mt-[1rem]"
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
             disabled={loading}
           >
             {loading ? "Updating..." : "Update Profile"}
           </button>
         </div>
+  
         {message && (
           <div className="text-center mt-4 text-sm text-yellow-400">
             {message}

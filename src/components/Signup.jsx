@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
+import { useNavigate } from "react-router-dom";
+import { registerUser  } from "../backend-services/authServices"; // Adjust the path to your API service file
 import backpic from "./Pics/Signuppics/signUpback3.jpg";
-import { registerUser } from "../backend-services/authServices"; // Adjust the path to your API service file
 
 const Signup = () => {
   const formRef = useRef();
@@ -21,26 +21,48 @@ const Signup = () => {
 
   useEffect(() => {
     const t1 = gsap.timeline();
-    t1.to(".box1", {
-      duration: 1.5,
-      x: 450,
-      opacity: 1,
-      ease: "back.out(1.7)",
-    });
-    t1.fromTo(".f1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 });
-  }, []);
+    
+    // Use matchMedia to apply different animations based on screen size
+    const mediaQuery = window.matchMedia("(max-width: 425px)");
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   if (name in formData.contactInfo) {
-  //     setFormData({
-  //       ...formData,
-  //       contactInfo: { ...formData.contactInfo, [name]: value },
-  //     });
-  //   } else {
-  //     setFormData({ ...formData, [name]: value });
-  //   }
-  // };
+    const animate = (isMobile) => {
+      if (isMobile) {
+        // Animation for mobile screens
+        t1.fromTo(
+          ".box1",
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1 }
+        );
+      } else {
+        // Animation for larger screens
+        t1.to(".box1", {
+          duration: 1.5,
+          x: 450,
+          opacity: 1,
+          ease: "back.out(1.7)",
+        });
+        t1.fromTo(
+          ".f1",
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1 }
+        );
+      }
+    };
+
+    // Initial animation
+    animate(mediaQuery.matches);
+
+    // Add listener for media query changes
+    mediaQuery.addEventListener("change", (e) => {
+      animate(e.matches);
+    });
+
+    return () => {
+      mediaQuery.removeEventListener("change", (e) => {
+        animate(e.matches);
+      });
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,20 +76,6 @@ const Signup = () => {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log("Submitting form data:", formData);
-  //   try {
-  //     const response = await registerUser(formData);
-  //     console.log("Response from server:", response);
-  //     alert(response.message || "Sign up successful!");
-  //     navigate("/login");
-  //   } catch (error) {
-  //     console.error("Error during signup:", error);
-  //     alert(error.message || "Sign up failed. Please try again.");
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.role) {
@@ -75,7 +83,7 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await registerUser(formData);
+      const response = await registerUser (formData);
       console.log("Response from server:", response);
       alert(response.message || "Sign up successful!");
       navigate("/login");
@@ -88,7 +96,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br bg-transparent flex gap-3">
       <div>
-        <img src={backpic} alt="" className="absolute h-screen w-screen" />
+        <img src={backpic} alt="" className="absolute h-screen w-screen min-[420px]:h-full" />
       </div>
       <div className="box1 h-fit mt-7 max-w-md w-full px-6 py-8 bg-transparent rounded-lg shadow-md shadow-black">
         <div
@@ -134,8 +142,6 @@ const Signup = () => {
                 Select Role
               </option>
               <option value="Admin">Admin</option>
-              {/* <option value="TravelCompany">Travel Company</option>
-              <option value="Hotel">Hotel</option> */}
               <option value="Passenger">Passenger</option>
             </select>
 

@@ -16,9 +16,9 @@ import Rootes_Room from "./Admin/Rootes_Room";
 export default function DashBoard() {
   return (
     <>
-      {/* ----------------------------img background------------------- */}
-
-      <div className="">
+    <div className="">
+{/* ----------------------------img background------------------- */}
+<div className="">
         <img
           src={backpic}
           alt=""
@@ -26,7 +26,7 @@ export default function DashBoard() {
         />
       </div>
       {/* ---------------front------------------ */}
-      <div className="flex h-screen opacity-1">
+      <div className="flex flex-col md:flex-row h-screen opacity-1">
         {/* ----------------------------sidebar------------------------- */}
         <Sidebar
           type="Admin"
@@ -206,6 +206,8 @@ export default function DashBoard() {
           </Routes>
         </div>
       </div>
+    </div>
+      
     </>
   );
 }

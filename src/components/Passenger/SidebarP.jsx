@@ -10,14 +10,14 @@ export default function SidebarP(props) {
     const t1 = gsap.timeline();
     t1.to("#prp1", { duration: 0, y: -50, opacity: 0 });
     t1.to("#prp2", { duration: 0, y: -100, opacity: 0 });
-    // t1.to("#prp3", { duration: 0, y: -150, opacity: 0 });
+    t1.to("#prp3", { duration: 0, y: -150, opacity: 0 });
     t1.to("#prp4", { duration: 0, y: -200, opacity: 0 });
     // t1.to("#prp5", { duration: 0 , y: -250, opacity: 0 })
 
     const t2 = gsap.timeline();
     t2.to("#prp1", { duration: 0.5, y: 10, opacity: 1 });
     t2.to("#prp2", { duration: 0.6, y: 20, opacity: 1 });
-    // t2.to("#prp3", { duration: 0.9, y: 30, opacity: 1 });
+    t2.to("#prp3", { duration: 0.9, y: 30, opacity: 1 });
     t2.to("#prp4", { duration: 1.2, y: 40, opacity: 1 });
     // t2.to("#prp5", { duration: 1.5 , y: 50, opacity: 1 })
   }, []);
@@ -65,7 +65,7 @@ export default function SidebarP(props) {
           >
             <p>{props.prp2}</p>
           </div>
-          {/* <div
+          <div
             id="prp3"
             onClick={() => {
               navigate("detailsP");
@@ -73,7 +73,7 @@ export default function SidebarP(props) {
             className="p-2 backdrop-blur-sm bg-white/20  rounded-2xl my-3 cursor-pointer hover:shadow-md hover:shadow-black/40 active:shadow-md active:shadow-black/40"
           >
             <p>{props.prp3}</p>
-          </div> */}
+          </div>
           <div
             id="prp4"
             onClick={handleLogout}

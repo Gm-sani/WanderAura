@@ -128,13 +128,13 @@ export default function Hotels() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-slate-950">
       <Navbarmini name="Hotels" />
-      <div className="overflow-auto h-[30rem] p-5 m-auto pt-[5rem] w-fit px-24 backdrop-blur-sm bg-white/10 py-24 shadow-lg shadow-black text-white rounded-md">
+      <div className="overflow-auto h-[30rem] m-auto pt-4 w-full md:w-fit px-2 md:px-24 backdrop-blur-sm bg-white/10 py-4 shadow-lg shadow-black text-white rounded-md">
         {/* Add Hotel Form */}
-        <form className="" onSubmit={handleSubmit}>
-          <div className="flex gap-[14rem] justify-center">
-            <div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col md:flex-row lg:pt-8 min-[425px]:pt-1 lg:gap-[9rem] min-[425px]:gap-4 justify-center">
+            <div className="w-full md:w-auto">
               <input
                 type="text"
                 name="username"
@@ -144,7 +144,7 @@ export default function Hotels() {
                 className="w-full backdrop-blur-none bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="w-full md:w-auto">
               <input
                 type="password"
                 name="password"
@@ -155,8 +155,8 @@ export default function Hotels() {
               />
             </div>
           </div>
-          <div className="flex gap-[14rem] justify-center mt-8">
-            <div>
+          <div className="flex flex-col md:flex-row lg:pt-4 min-[425px]:pt-1 lg:gap-[12rem] min-[425px]:gap-4 justify-center mt-4">
+            <div className="w-full md:w-auto">
               <input
                 type="email"
                 name="email"
@@ -166,7 +166,7 @@ export default function Hotels() {
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="w-full md:w-auto">
               <select
                 name="role"
                 value={formData.role}
@@ -181,8 +181,8 @@ export default function Hotels() {
               </select>
             </div>
           </div>
-          <div className="flex gap-[14rem] justify-center mt-8">
-            <div>
+          <div className="flex flex-col md:flex-row lg:gap-[9rem] min-[425px]:gap-4 justify-center mt-4">
+            <div className="w-full md:w-auto">
               <input
                 type="text"
                 name="phone"
@@ -192,7 +192,7 @@ export default function Hotels() {
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="w-full md:w-auto">
               <input
                 type="text"
                 name="address"
@@ -206,67 +206,47 @@ export default function Hotels() {
           <div className="flex justify-center mt-5">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded mt-[1rem] shadow-md shadow-black/30"
+              className="bg-blue-500 text-white px-4 py-2 rounded mt-2 shadow-md shadow-black/30"
             >
               {isEditing ? "Update Hotel" : "Add Hotel"}
             </button>
           </div>
         </form>
-
-        {/* Companies List */}
-        <div className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4">
-          <div className="tracking-tight text-[0.95rem] font-semibold">
-            Hotel Name
-          </div>
-          <div className="tracking-tight text-[0.95rem] font-semibold">
-            Email
-          </div>
-          <div className="tracking-tight text-[0.95rem] font-semibold">
-            Phone
-          </div>
-          <div className="tracking-tight text-[0.95rem] font-semibold">
-            Address
-          </div>
-          <div className="tracking-tight text-[0.95rem] font-semibold">
-            Action
-          </div>
-        </div>
-        <div>
-          <div>
-            {/* Companies List */}
-            {Array.isArray(hotels) &&
-              hotels.map((hotel, index) => (
+  
+        {/* Hotels List */}
+        <div className="flex flex-col w-full justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 lg:gap-16 min-[425px]:gap-2 text-[0.95rem] font-semibold">
+            <div>Hotel Name</div>
+            <div>Email</div>
+            <div>Phone</div>
+            <div>Address</div>
+            <div>Action</div>
+   </div>
+          {Array.isArray(hotels) && hotels.map((hotel, index) => (
+            <div
+              key={index}
+              className="flex flex-col md:flex-row justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
+            >
+              <div className="tracking-tight text-[0.95rem]">{hotel.username}</div>
+              <div className="tracking-tight text-[0.95rem]">{hotel.contactInfo.email}</div>
+              <div className="tracking-tight text-[0.95rem]">{hotel.contactInfo.phone}</div>
+              <div className="tracking-tight text-[0.95rem]">{hotel.contactInfo.address}</div>
+              <div className="flex gap-2">
                 <div
-                  key={index}
-                  className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
+                  className="p-2 bg-red-600 text-xs rounded-lg cursor-pointer"
+                  onClick={() => deleteCompany(hotel._id)}
                 >
-                  <div className="tracking-tight text-[0.95rem]">
-                    {hotel.username}
-                  </div>
-                  <div className="tracking-tight text-[0.95rem]">
-                    {hotel.contactInfo.email}
-                  </div>
-                  <div className="tracking-tight text-[0.95rem]">
-                    {hotel.contactInfo.phone}
-                  </div>
-                  <div className="tracking-tight text-[0.95rem]">
-                    {hotel.contactInfo.address}
-                  </div>
-                  <div
-                    className="p-2 bg-red-600 text-xs rounded-lg cursor-pointer"
-                    onClick={() => deleteCompany(hotel._id)}
-                  >
-                    Delete
-                  </div>
-                  <div
-                    className="p-2 bg-yellow-600 text-xs rounded-lg cursor-pointer"
-                    onClick={() => startEditing(hotel)}
-                  >
-                    Edit
-                  </div>
+                  Delete
                 </div>
-              ))}
-          </div>
+                <div
+                  className="p-2 bg-yellow-600 text-xs rounded-lg cursor-pointer"
+                  onClick={() => startEditing(hotel)}
+                >
+                  Edit
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -210,53 +210,51 @@ export default function RootesT() {
   };
 
   return (
-    <div>
+    <div className="bg-slate-950 h-fit min-[425px]::w-fit">
       <NavbarminiT name="Manage Routes" />
-      <div className="overflow-auto h-[30rem] p-5 m-auto pt-[5rem] w-fit px-24 backdrop-blur-sm bg-white/10 py-24 shadow-lg shadow-black text-white rounded-md">
+      <div className="overflow-auto h-[30rem] p-5 m-auto pt-5 lg:w-fit min-[425px]:w-[425px] max-w-fit backdrop-blur-sm bg-white/10 py-10 shadow-lg shadow-black text-white rounded-md">
         <form onSubmit={handleSubmit}>
-          <p className="text-xl text-white font-serif my-5">
+          <p className="text-xl text-white font-serif my-5 ">
             {editMode ? "Edit Route" : "Add Route"}
           </p>
-
+  
           {/* Departure */}
-          <p className="text-xl text-white font-serif my-5">Departure</p>
-          <div className="flex gap-[8rem] justify-center">
-            <div>
+          <p className="text-xl text-white font-serif my-5 ">Departure</p>
+          <div className="flex flex-col md:flex-row gap-16 justify-center">
+            <div className="flex-1">
               <input
                 type="text"
                 name="departure_location"
                 value={formData.departure.location}
                 placeholder="Departure Location"
                 onChange={handleChange}
-                className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
+                className="w-full md:w-fit bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <input
                 type="date"
                 name="departure_date"
                 value={formData.departure.date}
-                placeholder="Departure Date"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <input
                 type="time"
                 name="departure_time"
                 value={formData.departure.time}
-                placeholder="Departure Time"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
           </div>
-
+  
           {/* Arrival */}
           <p className="text-xl text-white font-serif my-5">Arrival</p>
-          <div className="flex gap-[8rem] justify-center">
-            <div>
+          <div className="flex flex-col md:flex-row gap-16 justify-center">
+            <div className="flex-1">
               <input
                 type="text"
                 name="arrival_location"
@@ -266,32 +264,30 @@ export default function RootesT() {
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <input
                 type="date"
                 name="arrival_date"
                 value={formData.arrival.date}
-                placeholder="Arrival Date"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <input
                 type="time"
                 name="arrival_time"
                 value={formData.arrival.time}
-                placeholder="Arrival Time"
                 onChange={handleChange}
                 className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
               />
             </div>
           </div>
-
+  
           {/* Price */}
           <p className="text-xl text-white font-serif my-5">Price</p>
-          <div className="flex gap-[14rem] mt-8">
-            <div>
+          <div className="flex justify-center mt-5">
+            <div className="flex-1">
               <input
                 type="text"
                 name="price"
@@ -301,12 +297,12 @@ export default function RootesT() {
               />
             </div>
           </div>
-
+  
           {/* Seats */}
           <p className="text-xl text-white font-serif my-5">Seats</p>
           {formData.seats.map((seat, index) => (
-            <div key={index} className="flex gap-[8rem]">
-              <div>
+            <div key={index} className="flex flex-col md:flex-row gap-16 justify-center">
+              <div className="flex-1">
                 <input
                   type="text"
                   name={`seatNumber_${index}`}
@@ -316,35 +312,16 @@ export default function RootesT() {
                   className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
                 />
               </div>
-              <div>
+              <div className="flex-1">
                 <select
                   name={`availability_${index}`}
-                  value={seat.availability}
+   value={seat.availability}
                   onChange={handleChange}
                   className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
                 >
                   <option value="true">Available</option>
                   <option value="false">Not Available</option>
                 </select>
-
-                {/* <select
-                  name={`availability_${index}`}
-                  value={formData.seats.availability}
-                  onChange={handleChange}
-                  className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
-                >
-                  <option value="true">Available</option>
-                  <option value="false">Not Available</option>
-                </select> */}
-                {/* 
-                <input
-                  type="text"
-                  name={`availability_${index}`}
-                  value={seat.availability}
-                  placeholder="Availability"
-                  onChange={handleChange}
-                  className="w-full bg-transparent px-4 py-2 shadow-sm shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
-                /> */}
               </div>
               <button
                 type="button"
@@ -355,7 +332,7 @@ export default function RootesT() {
               </button>
             </div>
           ))}
-
+  
           <button
             type="button"
             onClick={handleAddSeat}
@@ -363,7 +340,7 @@ export default function RootesT() {
           >
             Add Another Seat
           </button>
-
+  
           <div className="flex justify-center mt-5">
             <button
               type="submit"
@@ -373,12 +350,12 @@ export default function RootesT() {
             </button>
           </div>
         </form>
-
+  
         {/* Display Routes */}
         {routes.map((route) => (
           <div
             key={route._id}
-            className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
+            className="flex lg:gap-[4.7rem] m-auto lg:w-[52rem] min-[425px]:w-[380px] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
           >
             <p>
               {route.departure.location} to {route.arrival.location}

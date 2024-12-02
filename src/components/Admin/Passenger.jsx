@@ -51,7 +51,7 @@ export default function Passenger() {
 
   return (
     <>
-      <div>
+      <div className="bg-slate-950">
         {/* ----------------------------------nav--------------------------------- */}
         <Navbarmini name="Passenger" />
         {/* ----------------------------main container----------------------------- */}
@@ -60,42 +60,46 @@ export default function Passenger() {
             scrollbarWidth: "none" /* Firefox */,
             msOverflowStyle: "none" /* IE 10+ */,
           }}
-          className="overflow-auto h-[32.5rem] flex-1  p-5 m-auto pt-[5rem]  w-fit px-24 backdrop-blur-sm bg-white/10 py-[6rem] shadow-lg shadow-black text-white rounded-md  focus:outline-none focus:ring-2 placeholder-white"
+          className="overflow-auto h-[32.5rem] flex-1 p-5 m-auto pt-[5rem] w-fit px-24 backdrop-blur-sm bg-white/10 py-[6rem] shadow-lg shadow-black text-white rounded-md focus:outline-none focus:ring-2 placeholder-white"
         >
-          {/* -----------------------------------Fetched Companies-------------------------------------- */}
-          <div className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4 ">
-            <div> Name</div>
-            <div> Email</div>
-            <div> Phone</div>
-            <div>Address</div>
-            <div className="">Action</div>
-          </div>
-          {/* Table Rows */}
-          {passengers.map((passenger, index) => (
-            <div
-              key={index}
-              className="flex gap-[4.7rem] m-auto w-[52rem] justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
-            >
-              <div className="tracking-tight text-[0.95rem]">
-                {passenger.username}
-              </div>
-              <div className="tracking-tight text-[0.95rem]">
-                {passenger.contactInfo.email}
-              </div>
-              <div className="tracking-tight text-[0.95rem]">
-                {passenger.contactInfo.phone}
-              </div>
-              <div className="tracking-tight text-[0.95rem]">
-                {passenger.contactInfo.address}
-              </div>
-              <div
-                className="p-2 bg-red-600 text-xs rounded-lg cursor-pointer"
-                onClick={() => handleDeletePassenger(passenger._id)} // Use the renamed function
-              >
-                Delete
-              </div>
+          {/* -----------------------------------Fetched Passengers-------------------------------------- */}
+          <div className="flex flex-col w-full justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:gap-16 min-[425px]:gap-2 text-[0.95rem] font-semibold">
+              <div>Name</div>
+              <div>Email</div>
+              <div>Phone</div>
+              <div>Address</div>
+              <div>Action</div>
             </div>
-          ))}
+            {/* Table Rows */}
+            {passengers.map((passenger, index) => (
+              <div
+                key={index}
+                className="flex flex-col md:flex-row justify-between p-6 shadow-md shadow-black/50 hover:shadow-black/80 text-white rounded-md mt-4"
+              >
+                <div className="tracking-tight text-[0.95rem]">
+                  {passenger.username}
+                </div>
+                <div className="tracking-tight text-[0.95rem]">
+                  {passenger.contactInfo.email}
+                </div>
+                <div className="tracking-tight text-[0.95rem]">
+                  {passenger.contactInfo.phone}
+                </div>
+                <div className="tracking-tight text-[0.95rem]">
+                  {passenger.contactInfo.address}
+                </div>
+                <div className="flex gap-2">
+                  <div
+                    className="p-2 bg-red-600 text-xs rounded-lg cursor-pointer"
+                    onClick={() => handleDeletePassenger(passenger._id)} // Use the renamed function
+                  >
+                    Delete
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
